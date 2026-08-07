@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian — Single-Origin Coffee, Traced to the Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161310;
+    --paper:#ECE4D3;
+    --paper-dim:#DDD2BA;
+    --amber:#C79A2E;
+    --cherry:#A93B2E;
+    --line: rgba(22,19,16,0.14);
+    --line-on-ink: rgba(236,228,211,0.16);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.3rem;
+    letter-spacing:-0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo .mark{
+    width:22px; height:22px;
+    border-radius:50%;
+    background:conic-gradient(from 210deg, var(--cherry) 0deg, var(--amber) 160deg, var(--ink) 340deg, var(--cherry) 360deg);
+    flex-shrink:0;
+  }
+  .nav-links{ display:flex; gap:36px; font-size:0.92rem; }
+  .nav-links a{ opacity:0.75; transition:opacity 0.2s; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-cta{
+    background:var(--ink); color:var(--paper);
+    padding:11px 22px; border-radius:2px;
+    font-size:0.88rem; font-weight:500;
+    transition:background 0.2s;
+  }
+  .nav-cta:hover{ background:var(--cherry); }
+  .nav-toggle{ display:none; }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:96px 32px 80px;
+    max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:64px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--cherry); margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:''; width:26px; height:1px; background:var(--cherry);
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4.1rem);
+    line-height:1.02;
+    margin-bottom:26px;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--cherry); font-weight:500;
+  }
+  .hero p{
+    font-size:1.12rem; max-width:480px; opacity:0.78; margin-bottom:36px;
+  }
+  .hero-actions{ display:flex; align-items:center; gap:24px; }
+  .btn-primary{
+    background:var(--ink); color:var(--paper);
+    padding:15px 30px; border-radius:2px; font-weight:500; font-size:0.95rem;
+    transition:transform 0.2s, background 0.2s;
+    display:inline-block;
+  }
+  .btn-primary:hover{ background:var(--cherry); transform:translateY(-2px); }
+  .link-underline{
+    font-size:0.92rem; font-weight:500; border-bottom:1px solid var(--ink);
+    padding-bottom:2px; opacity:0.8;
+  }
+
+  /* Roast dial — signature element */
+  .dial-card{
+    background:var(--ink); color:var(--paper);
+    border-radius:4px; padding:38px;
+    position:relative; overflow:hidden;
+  }
+  .dial-card .mono{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; opacity:0.55; }
+  .dial-label{ margin-bottom:28px; display:flex; justify-content:space-between; }
+  .dial-svg{ width:100%; height:auto; }
+  .dial-readout{
+    display:flex; justify-content:space-between; margin-top:24px;
+    padding-top:20px; border-top:1px solid var(--line-on-ink);
+  }
+  .dial-readout div{ text-align:left; }
+  .dial-readout .val{ font-family:'Fraunces', serif; font-size:1.5rem; font-weight:600; }
+  .dial-readout .lbl{ font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; opacity:0.55; margin-top:4px; }
+
+  /* ===== TRUST STRIP ===== */
+  .trust{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:22px 32px;
+  }
+  .trust-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.04em; opacity:0.65;
+  }
+
+  /* ===== ORIGINS ===== */
+  .section{ padding:110px 32px; }
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-head .eyebrow{ margin-bottom:18px; }
+  .section-head h2{ font-size:clamp(2rem, 3.4vw, 2.7rem); line-height:1.1; }
+  .section-head p{ margin-top:18px; opacity:0.75; font-size:1.05rem; }
+
+  .origins-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .origin-card{
+    background:var(--paper); padding:36px 30px;
+    transition:background 0.25s;
+  }
+  .origin-card:hover{ background:var(--paper-dim); }
+  .origin-card .coord{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--cherry);
+    margin-bottom:16px;
+  }
+  .origin-card h3{ font-size:1.35rem; margin-bottom:10px; }
+  .origin-card .notes{ font-size:0.88rem; opacity:0.65; margin-bottom:20px; }
+  .tasting-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{
+    font-size:0.72rem; padding:5px 10px; border:1px solid var(--line);
+    border-radius:20px; opacity:0.7;
+  }
+
+  /* ===== PROCESS ===== */
+  .process{ background:var(--ink); color:var(--paper); }
+  .process .section-head p{ opacity:0.6; }
+  .process-row{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
+    border-top:1px solid var(--line-on-ink);
+  }
+  .process-step{
+    padding:32px 26px 32px 0; border-right:1px solid var(--line-on-ink);
+  }
+  .process-step:last-child{ border-right:none; }
+  .process-step .num{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--amber);
+    margin-bottom:14px;
+  }
+  .process-step h3{ font-size:1.05rem; margin-bottom:10px; font-weight:500; }
+  .process-step p{ font-size:0.88rem; opacity:0.6; }
+
+  /* ===== PLANS ===== */
+  .plans-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
+  }
+  .plan-card{
+    border:1px solid var(--line); padding:36px 30px; border-radius:4px;
+    display:flex; flex-direction:column;
+  }
+  .plan-card.featured{
+    background:var(--ink); color:var(--paper); border-color:var(--ink);
+    transform:translateY(-8px);
+  }
+  .plan-card .plan-name{ font-family:'Fraunces', serif; font-size:1.4rem; margin-bottom:8px; }
+  .plan-card .plan-desc{ font-size:0.88rem; opacity:0.65; margin-bottom:24px; }
+  .plan-card .plan-price{ font-family:'Fraunces', serif; font-size:2.3rem; margin-bottom:2px; }
+  .plan-card .plan-cadence{ font-size:0.78rem; opacity:0.55; margin-bottom:28px; }
+  .plan-card ul{ list-style:none; margin-bottom:32px; flex-grow:1; }
+  .plan-card li{
+    font-size:0.88rem; padding:9px 0; border-top:1px solid var(--line);
+    opacity:0.85;
+  }
+  .plan-card.featured li{ border-top:1px solid var(--line-on-ink); }
+  .plan-btn{
+    text-align:center; padding:13px; border:1px solid var(--ink);
+    border-radius:2px; font-size:0.9rem; font-weight:500; transition:all 0.2s;
+  }
+  .plan-btn:hover{ background:var(--ink); color:var(--paper); }
+  .plan-card.featured .plan-btn{ border-color:var(--paper); background:var(--amber); color:var(--ink); border-color:var(--amber); }
+  .plan-card.featured .plan-btn:hover{ background:var(--cherry); border-color:var(--cherry); color:var(--paper); }
+
+  /* ===== FOOTER CTA ===== */
+  .final-cta{
+    text-align:center; padding:120px 32px;
+  }
+  .final-cta h2{ font-size:clamp(2.2rem, 5vw, 3.4rem); max-width:700px; margin:0 auto 30px; line-height:1.08; }
+
+  footer{
+    border-top:1px solid var(--line); padding:48px 32px 32px;
+  }
+  .footer-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;
+  }
+  .footer-cols{ display:flex; gap:64px; }
+  .footer-col h4{
+    font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; opacity:0.5; margin-bottom:14px;
+  }
+  .footer-col a{ display:block; font-size:0.9rem; opacity:0.75; margin-bottom:10px; }
+  .footer-bottom{
+    max-width:1180px; margin:48px auto 0; padding-top:24px; border-top:1px solid var(--line);
+    font-size:0.78rem; opacity:0.5; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 860px){
+    .nav-links{ display:none; }
+    .hero{ grid-template-columns:1fr; padding-top:56px; }
+    .origins-grid{ grid-template-columns:1fr; }
+    .process-row{ grid-template-columns:1fr 1fr; }
+    .process-step{ border-right:none; border-bottom:1px solid var(--line-on-ink); }
+    .plans-grid{ grid-template-columns:1fr; }
+    .plan-card.featured{ transform:none; }
+    .footer-inner{ flex-direction:column; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; scroll-behavior:auto !important; }
+  }
+
+  :focus-visible{ outline:2px solid var(--cherry); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="mark"></span> Meridian</div>
+    <div class="nav-links">
+      <a href="#origins">Origins</a>
+      <a href="#process">Process</a>
+      <a href="#plans">Plans</a>
+    </div>
+    <a href="#plans" class="nav-cta">Start subscription</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lot-traced · Roasted weekly</div>
+    <h1>Coffee, sourced back to <em>the exact row it grew on.</em></h1>
+    <p>Every bag ships within 48 hours of roasting, with the farm, altitude, and processing method printed on the label — not marketing copy, coordinates.</p>
+    <div class="hero-actions">
+      <a href="#plans" class="btn-primary">Choose your subscription</a>
+      <a href="#origins" class="link-underline">See this week's origins</a>
+    </div>
+  </div>
+
+  <div class="dial-card">
+    <div class="dial-label">
+      <span class="mono">Current roast</span>
+      <span class="mono">Lot #0847</span>
+    </div>
+    <svg class="dial-svg" viewBox="0 0 260 150" fill="none">
+      <path d="M 20 130 A 110 110 0 0 1 240 130" stroke="rgba(236,228,211,0.18)" stroke-width="14" stroke-linecap="round"/>
+      <path d="M 20 130 A 110 110 0 0 1 168 32" stroke="#C79A2E" stroke-width="14" stroke-linecap="round"/>
+      <line x1="130" y1="130" x2="98" y2="46" stroke="#ECE4D3" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="130" cy="130" r="7" fill="#ECE4D3"/>
+      <text x="20" y="148" fill="#ECE4D3" opacity="0.5" font-size="9" font-family="JetBrains Mono">LIGHT</text>
+      <text x="212" y="148" fill="#ECE4D3" opacity="0.5" font-size="9" font-family="JetBrains Mono">DARK</text>
+    </svg>
+    <div class="dial-readout">
+      <div><div class="val">City+</div><div class="lbl">Roast level</div></div>
+      <div><div class="val">1,840m</div><div class="lbl">Elevation</div></div>
+      <div><div class="val">Washed</div><div class="lbl">Process</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="trust-inner">
+    <span>Direct trade with 14 farms</span>
+    <span>Roasted &amp; shipped Tue / Fri</span>
+    <span>Cancel or pause anytime</span>
+    <span>Carbon-neutral shipping</span>
+  </div>
+</div>
+
+<section class="section" id="origins">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">This week's lots</div>
+      <h2>Three farms, three cups, one shipment.</h2>
+      <p>We rotate origins so your subscription never repeats a lot back to back. Swap any of these for something else in your account, any time before Sunday.</p>
+    </div>
+
+    <div class="origins-grid">
+      <div class="origin-card">
+        <div class="coord mono">6.24°N, 75.58°W</div>
+        <h3>Finca La Sirena</h3>
+        <p class="notes">Jardín, Colombia — Wilford Lasso, 3rd generation grower</p>
+        <div class="tasting-tags">
+          <span class="tag">Red currant</span>
+          <span class="tag">Brown sugar</span>
+          <span class="tag">Clean finish</span>
+        </div>
+      </div>
+      <div class="origin-card">
+        <div class="coord mono">9.03°N, 38.75°E</div>
+        <h3>Gedeb Washing Station</h3>
+        <p class="notes">Yirgacheffe, Ethiopia — cooperative of 210 smallholders</p>
+        <div class="tasting-tags">
+          <span class="tag">Bergamot</span>
+          <span class="tag">Jasmine</span>
+          <span class="tag">Bright</span>
+        </div>
+      </div>
+      <div class="origin-card">
+        <div class="coord mono">-1.29°S, 36.82°E</div>
+        <h3>Kiambu Estate</h3>
+        <p class="notes">Kiambu, Kenya — single estate, SL28 varietal</p>
+        <div class="tasting-tags">
+          <span class="tag">Blackcurrant</span>
+          <span class="tag">Tomato</span>
+          <span class="tag">Winey</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How a bag reaches you</div>
+      <h2>Four days, farm to doorstep.</h2>
+      <p>No warehouse sitting time. Green coffee is bought in small lots and roasted against your actual delivery date, not a forecast.</p>
+    </div>
+    <div class="process-row">
+      <div class="process-step">
+        <div class="num mono">01</div>
+        <h3>Lot selected</h3>
+        <p>Green buyer cups and confirms the week's three origins.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">02</div>
+        <h3>Roasted to order</h3>
+        <p>Small-batch roast dialed per lot, never a house curve.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">03</div>
+        <h3>Rested 48 hours</h3>
+        <p>Degassing window before sealing, for a cleaner pour.</p>
+      </div>
+      <div class="process-step">
+        <div class="num mono">04</div>
+        <h3>Shipped same week</h3>
+        <p>Out the door Tuesday or Friday, tracked door to door.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Subscription plans</div>
+      <h2>Pick a rhythm. Change it whenever.</h2>
+      <p>Every plan includes free grind-size selection and the option to skip a shipment with one click.</p>
+    </div>
+
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">Taster</div>
+        <p class="plan-desc">One origin a month, for getting to know Meridian.</p>
+        <div class="plan-price">$19</div>
+        <div class="plan-cadence mono">per shipment / monthly</div>
+        <ul>
+          <li>1 × 12oz bag, one origin</li>
+          <li>Tasting notes card included</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <a href="#" class="plan-btn">Start Taster</a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-name">Rotation</div>
+        <p class="plan-desc">All three weekly origins, delivered biweekly.</p>
+        <div class="plan-price">$42</div>
+        <div class="plan-cadence mono">per shipment / bi-weekly</div>
+        <ul>
+          <li>3 × 12oz bags, all origins</li>
+          <li>Priority pick of limited lots</li>
+          <li>Free grind-size customization</li>
+        </ul>
+        <a href="#" class="plan-btn">Start Rotation</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Reserve</div>
+        <p class="plan-desc">For the household that never runs out.</p>
+        <div class="plan-price">$68</div>
+        <div class="plan-cadence mono">per shipment / weekly</div>
+        <ul>
+          <li>4 × 12oz bags, weekly</li>
+          <li>Access to micro-lot drops</li>
+          <li>Direct line to the green buyer</li>
+        </ul>
+        <a href="#" class="plan-btn">Start Reserve</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="eyebrow" style="justify-content:center;">No contracts</div>
+  <h2>Your next bag hasn't been roasted yet. Tell us when to start.</h2>
+  <a href="#plans" class="btn-primary">Choose your subscription</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo"><span class="mark"></span> Meridian</div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#origins">Origins</a>
+        <a href="#process">Process</a>
+        <a href="#plans">Plans</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Farms we work with</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Meridian Coffee Co.</span>
+    <span>Roasted in small batches, shipped worldwide.</span>
+  </div>
+</footer>
+
+</body>
+</html>
